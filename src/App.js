@@ -4,7 +4,6 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import "./App.css";
 
 import User from "./user/pages/User";
 import NewPlace from "./places/pages/NewPlace";
