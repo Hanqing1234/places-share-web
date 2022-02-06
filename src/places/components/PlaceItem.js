@@ -1,9 +1,13 @@
+import {useState} from 'react';
+
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
+
+ 
   return (
     <li className="place-item">
       <Card className="place-item__content">
