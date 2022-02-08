@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 
 import { validate } from "../../util/validators";
 
@@ -43,6 +43,13 @@ const Input = (props) => {
     });
   };
 
+  const { isValid } = inputState;
+  
+  const {onInput} = props;
+  useEffect(() => {
+    onInput(isValid)
+  }, [ isValid, onInput]);
+  
   const element =
     props.element === "input" ? (
       <input
