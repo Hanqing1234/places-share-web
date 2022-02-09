@@ -26,9 +26,6 @@ const NewPlace = () => {
     false
   );
 
-  
-  console.log(formState.inputs);
-
   const placeSubmitHandler = (event) => {
     event.preventDefault();
     console.log(formState.inputs); // send this to the backend
