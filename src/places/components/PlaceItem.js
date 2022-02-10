@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Map from "../../shared/components/UIElements/Map";
+import { AuthContext } from "../../shared/context/auth-context";
 
 import "./PlaceItem.css";
 
 const PlaceItem = (props) => {
+  const auth = useContext(AuthContext);
+
   const [showMap, setShowMap] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -32,7 +35,6 @@ const PlaceItem = (props) => {
     console.log("DELETING...");
   };
 
-
   return (
     <React.Fragment>
       <Modal
@@ -44,19 +46,27 @@ const PlaceItem = (props) => {
         footer={<Button onClick={closeMapHandler}>CLOSE</Button>}
       >
         <div className="map-container">
-          <Map center={props.coordinates} zoom={16}/>
+          <Map center={props.coordinates} zoom={16} />
         </div>
       </Modal>
 
-      <Modal show={showConfirmModal}
-      onCancel={cancelDeleteHandler}
-      header="Are you sure" footerClass="place-item__modal-actions" footer={
-        <React.Fragment>
-        <Button inverse onClick={cancelDeleteHandler}>CANCEL</Button>
-        <Button danger onClick={confirmDeleteHandler}>DELETE</Button>
-        </React.Fragment>
-      }>
-      <p>Do you want to delete?</p>
+      <Modal
+        show={showConfirmModal}
+        onCancel={cancelDeleteHandler}
+        header="Are you sure"
+        footerClass="place-item__modal-actions"
+        footer={
+          <React.Fragment>
+            <Button inverse onClick={cancelDeleteHandler}>
+              CANCEL
+            </Button>
+            <Button danger onClick={confirmDeleteHandler}>
+              DELETE
+            </Button>
+          </React.Fragment>
+        }
+      >
+        <p>Do you want to delete?</p>
       </Modal>
 
       <li className="place-item">
@@ -70,9 +80,17 @@ const PlaceItem = (props) => {
             <p>{props.description}</p>
           </div>
           <div className="place-item__actions">
-            <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-            <Button to={`/places/${props.id}`}>EDIT</Button>
-            <Button danger onClick={showDeleteHandler}>DELETE</Button>
+            <Button inverse onClick={openMapHandler}>
+              VIEW ON MAP
+            </Button>
+            {auth.isLoggedIn && (
+              <Button to={`/places/${props.id}`}>EDIT</Button>
+            )}
+            {auth.isLoggedIn && (
+              <Button danger onClick={showDeleteHandler}>
+                DELETE
+              </Button>
+            )}
           </div>
         </Card>
       </li>
