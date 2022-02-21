@@ -12,7 +12,7 @@ import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
-import { AuthContext} from '../../shared/context/auth-context';
+import { AuthContext } from "../../shared/context/auth-context";
 
 const Auth = (props) => {
   const auth = useContext(AuthContext);
@@ -53,17 +53,38 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    
-    fetch('');
 
-    auth.login();
+    if (isLoginMode) {
+    } else {
+      try {
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formState.inputs.name.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+        });
+
+        const responseData = await response.json();
+        console.log(responseData);
+
+      } catch (err) {
+        console.log(err);
+      }
+    }
+      auth.login();
+    
   };
 
   return (
-    <Card className="authentication">
+    <Card className="authentication" s>
       <h2>Login Required</h2>
       <hr />
-      <form onSubmit={authSubmitHandler}>
+      <form onSubmit={authSubmitHandler} >
         {!isLoginMode && (
           <Input
             element="input"
