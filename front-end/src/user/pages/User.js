@@ -24,14 +24,16 @@ const User = () => {
         setLoadedUsers(responseData.users);
         setIsLoading(false);
       } catch (err) {
-        setIsLoading(false);
         setError(err.message);
       }
+      setIsLoading(false);
     };
     sendRequest();
   }, []);
 
-  const errorHandler = () => {};
+  const errorHandler = () => {
+    setError(null);
+  };
 
   return (
     <React.Fragment>
