@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 
 import "./Auth.css";
 
@@ -72,10 +72,13 @@ const Auth = (props) => {
             name: formState.inputs.name.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
-          }),
+          })
         });
 
         const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
         console.log(responseData);
         setIsLoading(false);
         auth.login();
@@ -88,7 +91,13 @@ const Auth = (props) => {
     
   };
 
+  const errorHandler =() => {
+    setError(null);
+  }
+
   return (
+    <React.Fragment>
+    <ErrorModal error={error} onClear={errorHandler}/>
     <Card className="authentication">
     {isLoading && <LoadingSpinner asOverlay />}
       <h2>Login Required</h2>
@@ -131,6 +140,7 @@ const Auth = (props) => {
         SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
       </Button>
     </Card>
+    </React.Fragment>
   );
 };
 
