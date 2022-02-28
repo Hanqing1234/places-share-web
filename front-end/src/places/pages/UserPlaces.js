@@ -14,6 +14,8 @@ const UserPlaces = () => {
 
   const userId = useParams().userId;
 
+  
+
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
