@@ -7,6 +7,8 @@ const getCoordsForAddress = require('../util/location');
 const Place = require('../models/place');
 const User = require('../models/user');
 
+const fs = require('fs');
+
 const getPlaceById = async (req, res, next) => {
   const placeId = req.params.pid;
 
@@ -83,8 +85,7 @@ const createPlace = async (req, res, next) => {
     description,
     address,
     location: coordinates,
-    image:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Empire_State_Building_%28aerial_view%29.jpg/400px-Empire_State_Building_%28aerial_view%29.jpg',
+    image: req.file.path,
     creator
   });
 
@@ -100,6 +101,9 @@ const createPlace = async (req, res, next) => {
     const error = new HttpError('Could not find user for provided id', 404);
     return next(error);
   }
+
+  const imagePath = place.image;
+
 
   console.log(user);
 
