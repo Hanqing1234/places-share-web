@@ -15,13 +15,10 @@
   width: 100%;
   height: 12.5rem;
   margin-right: 1.5rem;
+  padding: 0;
 }
 
-.place-item__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+
 
 .place-item__info h2,
 .place-item__info h3,
@@ -58,3 +55,4 @@
     height: 20rem;
   }
 }
+

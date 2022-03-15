@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 
+import { Image } from "antd";
+
 import Card from "../../shared/components/UIElements/Card";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
@@ -81,9 +83,9 @@ const PlaceItem = (props) => {
       <li className="place-item">
         <Card className="place-item__content">
         {isLoading && <LoadingSpinner asOverlay />}
-          <div className="place-item__image">
-            <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
-          </div>
+          <Card className="place-item__image">
+            <Image src={`http://localhost:5000/${props.image}`} alt={props.title}/>
+          </Card>
           <div className="place-item__info">
             <h2>{props.title}</h2>
             <h3>{props.address}</h3>
