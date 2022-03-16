@@ -71,20 +71,20 @@ const createPlace = async (req, res, next) => {
     );
   }
 
-  const { title, description, address, creator } = req.body;
+  const { title, description,  creator } = req.body;
 
-  let coordinates;
+  /*let coordinates;
   try {
     coordinates = await getCoordsForAddress(address);
   } catch (error) {
     return next(error);
-  }
+  }*/
 
   const createdPlace = new Place({
     title,
     description,
-    address,
-    location: coordinates,
+    //address,
+    // location: coordinates,
     image: req.file.path,
     creator
   });
