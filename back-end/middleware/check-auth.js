@@ -8,12 +8,12 @@ module.exports = (req, res, next) => {
   }
   try {
     const token = req.headers.authorization.split(" ")[1]; //Authorization: 'Bearer TOKEN'
-    console.log(req.headers.authorization);
+   
     if (!token) {
       throw new HttpError("Authentication failed3");
     }
     const decodedToken = jwt.verify(token, "secret_dont_share");
-    console.log(decodedToken);
+    
     req.userData = { userId: decodedToken.userId };
     next();
   } catch (err) {
