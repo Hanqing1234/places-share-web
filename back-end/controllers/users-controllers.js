@@ -140,7 +140,7 @@ const login = async (req, res, next) => {
   }
 
   res.json({
-    userId: createdUser.id, email: createdUser.email, token: token
+    userId: existingUser.id, email: existingUser.email, token: token
   });
 };
 
