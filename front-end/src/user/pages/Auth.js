@@ -77,7 +77,7 @@ const Auth = (props) => {
             "Content-Type": "application/json",
           }
         );
-        auth.login(responseData.userId);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {}
     } else {
       try {
@@ -90,10 +90,8 @@ const Auth = (props) => {
           process.env.REACT_APP_BACKEND_URL + "/users/signup",
           "POST",
           formData
-          
         );
-
-        auth.login(responseData.userId);
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {
         
       }
