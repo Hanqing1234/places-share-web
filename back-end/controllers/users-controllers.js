@@ -1,4 +1,6 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 
 const HttpError = require("../models/http-error");
 const User = require("../models/user");
@@ -21,11 +23,12 @@ const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
-      new HttpError("Invalid inputs passed, please check your data-signup.", 422)
+      new HttpError(
+        "Invalid inputs passed, please check your data-signup.",
+        422
+      )
     );
   }
-
-
 
   const { name, email, password } = req.body;
 
@@ -48,11 +51,19 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    const error = new HttpError("Could not create user", 500);
+    return new error();
+  }
+
   const createdUser = new User({
     name,
     email,
     image: req.file.path,
-    password,
+    password: hashedPassword,
     places: [],
   });
 
@@ -81,13 +92,28 @@ const login = async (req, res, next) => {
     return next(error);
   }
 
-  if (!existingUser || existingUser.password !== password) {
+  if (!existingUser) {
     const error = new HttpError(
       "Invalid credentials, could not log you in.",
       401
     );
     return next(error);
   }
+
+  let isValidPassword = false;
+  try {
+    isValidPassword = await bcrypt.compare(password, existingUser.password);
+  } catch (err) {
+    const error = new HttpError("Could not log you in", 500);
+    return next(error);
+  }
+
+  if (!isValidPassword) {
+    const error = new HttpError("Could not log you in", 401);
+    return next(error);
+  }
+
+
 
   res.json({
     message: "Logged in!",
